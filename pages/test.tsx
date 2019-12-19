@@ -3,17 +3,24 @@ import {NextPage} from "next"
 import Link from "next/link";
 import {Button} from "@material-ui/core";
 
-const Home: NextPage = () => (
+const TestPage: NextPage<{ ua: string }> = ({ua}) => (
     <>
       <h1>Hello world!</h1>
+      <p>{ua || ''}</p>
       <nav>
-        <Link href={'/test'}>
+        <Link href={'/'}>
           <Button variant={'contained'} color={'primary'}>
-            test link
+            home link
           </Button>
         </Link>
       </nav>
     </>
 );
 
-export default Home;
+TestPage.getInitialProps = async ({req}) => {
+  const ua = req ? req.headers['user-agent'] || '' : navigator.userAgent;
+  return {ua};
+}
+;
+
+export default TestPage;
